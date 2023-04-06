@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import {dbConnect} from '../../middlewares/dbConnect';
+import type { defaultResponsesMsg } from '../../types/defaultResponsesMsg';
 
-export default (
+const loginEndPoint = (
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<defaultResponsesMsg>
 ) => {
     if (req.method === 'POST') {
         const {login, password} = req.body
@@ -14,3 +16,5 @@ export default (
     }
     return res.status(405).json({error: 'método informado não é válido'})
 }
+
+export default dbConnect(loginEndPoint)
