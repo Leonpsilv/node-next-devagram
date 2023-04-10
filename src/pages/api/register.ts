@@ -4,6 +4,8 @@ import { reqRegisterUser } from "@/types/reqRegisterUser";
 import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import bcrypt from 'bcrypt';
+import { upload, cosmicUploadImage } from "@/services/cosmicUploadImage";
+import nc from 'next-connect';
 
 const types = {
     email: {
@@ -20,9 +22,8 @@ const registerEndPoint = async (
     req: NextApiRequest,
     res: NextApiResponse<defaultResponsesMsg>
 ) => {
-    if (req.method === 'POST') {
+    try {
         const user = req.body as reqRegisterUser // validando pelo type criado
-
         if(!user.name || user.name.length < 2) {
             return res.status(400).json({error: 'nome inválido'})
         }
@@ -36,16 +37,37 @@ const registerEndPoint = async (
         }
 
         const anExistingUser: any[] = await UserModel.find({email: user.email})
-        if(anExistingUser && anExistingUser.length > 0) return res.status(400).json({error: 'este email já cadastrado'})
+        
+        if(anExistingUser && anExistingUser.length > 0)
+        return res.status(400).json({error: 'este email já cadastrado'})
 
+        const image = await cosmicUploadImage(req)
         const hashedPassword = await bcrypt.hash(user.password, 12)
-        user.password = hashedPassword
-        await UserModel.create(user)
+
+        const completedUser = {
+            name: user.name,
+            email: user.email,
+            password: hashedPassword,
+            avatar: image?.media?.url
+        }
+        await UserModel.create(completedUser)
+
         return res.status(200).json({msg: 'usuário cadastrado com sucesso'})
 
-
+    } catch(e) {
+        return res.status(400).json({error: 'falha ao cadastrar usuário'})  
     }
-    return res.status(405).json({error: 'método informado não é válido'})
+    
 }
 
-export default dbConnect(registerEndPoint)
+const handler = nc()
+    .use(upload.single('file'))
+    .post(registerEndPoint)
+
+export const config = {
+    api: {
+        bodyParser: false
+    }
+}
+
+export default dbConnect(handler)
