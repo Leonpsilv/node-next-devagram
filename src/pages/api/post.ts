@@ -28,14 +28,16 @@ const postEndPoint = async (
         const post = {
             userId,
             description,
-            image: image.media.url
+            image: image.media.url,
+            date: new Date()
         }
 
         await PostModel.create(post)
 
         const userPosts = await PostModel.find({userId})
-        if(user.posts !== userPosts.length){
-            await UserModel.findByIdAndUpdate({_id: userId, user})
+        if(user.posts != userPosts.length){
+            user.posts = userPosts.length
+            await UserModel.findOneAndUpdate({_id: userId}, user)
         }
         
         return res.status(200).json({msg: 'postagem realizada com sucesso!'})
