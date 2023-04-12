@@ -4,7 +4,7 @@ import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 
-const userEndPoint = async (
+const searchEndPoit = async (
     req: NextApiRequest,
     res: NextApiResponse<defaultResponsesMsg | any>
 ) => {
@@ -42,4 +42,4 @@ const userEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect( userEndPoint))
+export default tokenJWTValidator(dbConnect(searchEndPoit))

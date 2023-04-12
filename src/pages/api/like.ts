@@ -5,7 +5,7 @@ import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 import { PostModel } from "@/models/postModel";
 
-const userEndPoint = async (
+const likeEndPoint = async (
     req: NextApiRequest,
     res: NextApiResponse<defaultResponsesMsg | any>
 ) => {
@@ -46,4 +46,4 @@ const userEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect( userEndPoint))
+export default tokenJWTValidator(dbConnect(likeEndPoint))

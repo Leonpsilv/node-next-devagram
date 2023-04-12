@@ -3,10 +3,9 @@ import { tokenJWTValidator } from "@/middlewares/tokenJWTValidator";
 import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
-import { PostModel } from "@/models/postModel";
 import { FollowModel } from "@/models/followModel";
 
-const userEndPoint = async (
+const followEndPoint = async (
     req: NextApiRequest,
     res: NextApiResponse<defaultResponsesMsg | any>
 ) => {
@@ -57,4 +56,4 @@ const userEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect( userEndPoint))
+export default tokenJWTValidator(dbConnect(followEndPoint))
