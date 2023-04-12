@@ -26,6 +26,10 @@ const userEndPoint = async (
                         {email: {$regex: filter, $options: 'i'}}
                     ]
                 })
+
+                if(foundUsers && foundUsers.length > 0){
+                    foundUsers.forEach(user => {user.password = undefined})
+                }
     
                 return res.status(200).json(foundUsers)
             }
