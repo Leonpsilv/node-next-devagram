@@ -10,17 +10,26 @@ const userEndPoint = async (
 ) => {
     try{
         if(req.method === 'GET'){
-            const {filter} = req.query
-            if(!filter || filter.length < 2) return res.status(204).json(null)
+            if(req?.query?.id){
+                const searchUser = await UserModel.findById(req?.query?.id)
+                if(!searchUser) return res.status(400).json({error: 'usuário não encontrado'})
+                searchUser.password = undefined
+                
+                return res.status(200).json(searchUser)
+            }else{
+                const {filter} = req.query
+                if(!filter || filter.length < 2) return res.status(204).json(null)
+    
+                const foundUsers = await UserModel.find({
+                    $or: [
+                        {name: {$regex: filter, $options: 'i'}},
+                        {email: {$regex: filter, $options: 'i'}}
+                    ]
+                })
+    
+                return res.status(200).json(foundUsers)
+            }
 
-            const foundUsers = await UserModel.find({
-                $or: [
-                    {name: {$regex: filter, $options: 'i'}},
-                    {email: {$regex: filter, $options: 'i'}}
-                ]
-            })
-
-            return res.status(200).json({foundUsers})
         }
         return res.status(405).json({error: 'método informado não é válido'})
     }catch(e){
