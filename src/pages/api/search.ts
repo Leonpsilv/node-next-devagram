@@ -3,6 +3,7 @@ import { tokenJWTValidator } from "@/middlewares/tokenJWTValidator";
 import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const searchEndPoit = async (
     req: NextApiRequest,
@@ -42,4 +43,4 @@ const searchEndPoit = async (
 }
 
 
-export default tokenJWTValidator(dbConnect(searchEndPoit))
+export default corsPolicy(tokenJWTValidator(dbConnect(searchEndPoit)))

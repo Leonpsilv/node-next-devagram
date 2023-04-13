@@ -4,6 +4,7 @@ import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 import { PostModel } from "@/models/postModel";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const likeEndPoint = async (
     req: NextApiRequest,
@@ -46,4 +47,4 @@ const likeEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect(likeEndPoint))
+export default corsPolicy(tokenJWTValidator(dbConnect(likeEndPoint)))

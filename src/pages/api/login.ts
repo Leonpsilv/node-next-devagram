@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { UserModel } from "@/models/userModel";
 import jwt from 'jsonwebtoken';
 import { responseLogin } from "@/types/responseLogin";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const loginEndPoint = async (
     req: NextApiRequest,
@@ -35,4 +36,4 @@ const loginEndPoint = async (
     return res.status(405).json({error: 'método informado não é válido'})
 }
 
-export default dbConnect(loginEndPoint)
+export default corsPolicy(dbConnect(loginEndPoint))

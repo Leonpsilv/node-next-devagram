@@ -6,6 +6,7 @@ import nc from 'next-connect';
 import { tokenJWTValidator } from "@/middlewares/tokenJWTValidator";
 import { UserModel } from "@/models/userModel";
 import { PostModel } from "@/models/postModel";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const postEndPoint = async (
     req: any,
@@ -58,4 +59,4 @@ export const config = {
     }
 }
 
-export default tokenJWTValidator(dbConnect(handler))
+export default corsPolicy(tokenJWTValidator(dbConnect(handler)))

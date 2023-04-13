@@ -4,6 +4,7 @@ import { dbConnect } from "@/middlewares/dbConnect";
 import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 import { FollowModel } from "@/models/followModel";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const followEndPoint = async (
     req: NextApiRequest,
@@ -56,4 +57,4 @@ const followEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect(followEndPoint))
+export default corsPolicy(tokenJWTValidator(dbConnect(followEndPoint)))

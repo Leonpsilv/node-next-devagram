@@ -6,6 +6,7 @@ import { UserModel } from "@/models/userModel";
 import bcrypt from 'bcrypt';
 import { upload, cosmicUploadImage } from "@/services/cosmicUploadImage";
 import nc from 'next-connect';
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const types = {
     email: {
@@ -70,4 +71,4 @@ export const config = {
     }
 }
 
-export default dbConnect(handler)
+export default corsPolicy(dbConnect(handler))

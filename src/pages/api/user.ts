@@ -5,6 +5,7 @@ import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 import nc from 'next-connect';
 import { upload, cosmicUploadImage } from "@/services/cosmicUploadImage";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const updateUserEndPoint = async (
     req: any,
@@ -68,4 +69,4 @@ export const config = {
 }
 
 
-export default tokenJWTValidator(dbConnect(handler))
+export default corsPolicy(tokenJWTValidator(dbConnect(handler)))

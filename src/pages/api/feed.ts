@@ -5,6 +5,7 @@ import { UserModel } from "@/models/userModel";
 import { defaultResponsesMsg } from "@/types/defaultResponsesMsg";
 import { PostModel } from "@/models/postModel";
 import { FollowModel } from "@/models/followModel";
+import { corsPolicy } from "@/middlewares/corsPolicy";
 
 const feedEndPoint = async (
     req: NextApiRequest,
@@ -62,4 +63,4 @@ const feedEndPoint = async (
 }
 
 
-export default tokenJWTValidator(dbConnect(feedEndPoint))
+export default corsPolicy(tokenJWTValidator(dbConnect(feedEndPoint)))
