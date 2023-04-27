@@ -12,9 +12,17 @@ const searchEndPoit = async (
     try{
         if(req.method === 'GET'){
             if(req?.query?.id){
+                const {userId} = req.query
+
                 const searchUser = await UserModel.findById(req?.query?.id)
                 if(!searchUser) return res.status(400).json({error: 'usuário não encontrado'})
                 searchUser.password = undefined
+
+                if(searchUser.indexOf(userId) !== -1){
+                    searchUser.followThisUser = true
+                }else{
+                    searchUser.followThisUser = false
+                }
                 
                 return res.status(200).json(searchUser)
             }else{
