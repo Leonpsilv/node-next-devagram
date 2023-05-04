@@ -1,6 +1,6 @@
 # Devagram
 
-Projeto inspirado no [Instagram](https://www.instagram.com) e desenvolvimento para apresentação do node.js e next na formação Devaria 2022.
+Projeto inspirado no [Instagram](https://www.instagram.com) e desenvolvido para apresentação do node.js e next na formação Devaria 2022.
 Veja, também, o frontend desta aplicação [clicando aqui.](https://github.com/Leonpsilv/react-next-devagram)
 
 
